@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="De-Diffusion Makes Text a Strong Cross-Modal Interface">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>De-Diffusion</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./dediffusion/css/bulma.min.css">
+  <link rel="stylesheet" href="./dediffusion/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./dediffusion/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./dediffusion/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./dediffusion/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./dediffusion/js/fontawesome.all.min.js"></script>
+  <script src="./dediffusion/js/bulma-carousel.min.js"></script>
+  <script src="./dediffusion/js/bulma-slider.min.js"></script>
+  <script src="./dediffusion/js/index.js"></script>
+  <style>
+  .src-image{
+    margin-bottom: -5%;
+  }
+  .dst-image {
+    margin-top:-95%;
+    opacity: 0;
+    transition: 1s ease-in-out;
+  }
+  .overlay-image:hover .dst-image {
+    opacity: 1;
+  }
+
+  .hover-block {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    /* position: absolute; */
+    /* top: 0;
+    left: 0; */
+    transition: opacity 0s ease-in-out;
+  }
+
+  .dst-column {
+    opacity: 0;
+    margin-top:-38.35%;
+    margin-bottom: 10%;
+  }
+  .overlay-column:hover .src-column {
+    opacity: 0;
+  }
+  .overlay-column:hover .dst-column {
+    opacity: 1;
+  }
+
+  caption {
+    padding: 10px;
+    caption-side: bottom;
+    font-weight: 1000;
+  }
+  
+  .center-cropped {
+    object-fit: cover;
+    object-position: center;
+    height: 200px;
+    width: 200px;
+  }
+
+  .center-cropped-auto {
+    object-fit: cover;
+    object-position: center;
+    height: 100%;
+    width: 100%;
+  }
+  #squareImage {
+  width: 100%;
+  }
+
+  .square-text-block {
+    width: 600px;
+    height: auto;
+    overflow: hidden;
+    position: relative;
+    box-sizing: border-box;
+    margin-left: -10%;
+  }
+
+  .square-text-block-large {
+    width: auto;
+    height: auto;
+    /* overflow: hidden; */
+    /* position: relative; */
+    /* box-sizing: border-box; */
+  }
+  </style>
+</head>
+<body>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-size-3 publication-title">
+            De-Diffusion Makes Text a Strong Cross-Modal Interface
+          </h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://weichen582.github.io/">Chen Wei</a><sup>1,2</sup>,</span>
+            <span class="author-block">
+              <a href="https://www.cs.jhu.edu/~cxliu/">Chenxi Liu</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://www.cs.jhu.edu/~syqiao/">Siyuan Qiao</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://zhishuai.xyz/">Zhishuai Zhang</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.cs.jhu.edu/~ayuille/">Alan Yuille</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://jiahuiyu.com/">Jiahui Yu</a><sup>1</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Google DeepMind</span>,
+            <span class="author-block"><sup>2</sup>Johns Hopkins University</span>
+          </div>
+
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/???"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Code [Coming soon!]</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <div class="columns is-centered has-text-centered">
+        <div class="column" style="padding: 1px">
+          <img src="./dediffusion_imgs/teaser.png">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3"><span class="small-caps">Abstract</span></h2>
+        <div class="content has-text-justified">
+          <p>
+            We demonstrate text as a strong cross-modal interface.
+            Rather than relying on deep embeddings to connect image and language as the interface representation, our approach represents an image as text, from which we enjoy the interpretability and flexibility inherent to natural language.
+            We employ an autoencoder that uses a pre-trained text-to-image diffusion model for decoding. The encoder is trained to transform an input image into text, which is then fed into the fixed text-to-image diffusion decoder to reconstruct the original input, a process we term <span class="small-caps">De-Diffusion</span>.
+            Experiments validate both the precision and comprehensiveness of De-Diffusion text representing images, such that it can be readily ingested by off-the-shelf text-to-image tools and LLMs for diverse multi-modal tasks.
+            For example, a single De-Diffusion model can generalize to provide transferable prompts for different text-to-image tools, and also achieves a new state of the art on open-ended vision-language tasks by simply prompting large language models with few-shot examples.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <!-- <h2 class="title is-3">Inpainting</h2> -->
+
+        <h3 class="title is-3">De-Diffusion Text</h3>
+
+        <div class="content has-text-justified">
+            <p>De-Diffusion text can desrbie creative synthetic images.</p>
+          </div>
+
+        <div class="columns">
+            <div class="columns">
+                <div class="column has-text-centered">
+                    <img class='center-cropped' src="https://ideogram.ai/api/images/direct/Y1kG0joVReqhaXZ9Kp013w.jpg">
+                    <p><a href="https://ideogram.ai/g/tQFD0qmnRRi2pnsyJ-YuIw/3">original image</a></p>
+                </div>
+                <div class="column square-text-block">
+                    <button onclick="showBlock('blockxa', 'blockx')">5 Tokens</button>
+                    <button onclick="showBlock('blockxb', 'blockx')">15 Tokens</button>
+                    <button onclick="showBlock('blockxc', 'blockx')">75 Tokens</button>
+                    <div id="blockxa" class="content-block active">
+                        <p>futuristic colourful rhinogeometric render</p>
+                    </div>
+                    <div id="blockxb" class="content-block">
+                        <p>neon futuristic render statue closeup frontal geometric rhinocolorful origami colorful glowing colorful background triangle</p>
+                    </div>
+                    <div id="blockxc" class="content-block">
+                        <p>an arts pic digitally pixels closeup glowing rhino wearing colorful colorful glaspentagon angular cone closeup forehead through an through colorful geomeangular futuristic futuristic osfuturistic futuristic animal resembsimilar called an chrome rhino shown front frontal incorporating wearing an colorful geometriangle angular with wearing face and horn yellow horn orange orange teal turquoise consist consist towards maroon angular on on angular maroon darkness on gray grey background closeup eyebrow futuristic futuristic wallpaper</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="columns">
+                <div class="column has-text-centered">
+                    <img class='center-cropped' src="https://ideogram.ai/api/images/direct/8IQ8CEo_RQ-yqnFo4xCoaw.jpg">
+                    <p><a href="https://ideogram.ai/g/kD8Kn85LQua3i3O_zU0nKw/1">original image</a></p>
+                </div>
+                <div class="column square-text-block">
+                    <button onclick="showBlock('blockya', 'blocky')">5 Tokens</button>
+                    <button onclick="showBlock('blockyb', 'blocky')">15 Tokens</button>
+                    <button onclick="showBlock('blockyc', 'blocky')">75 Tokens</button>
+                    <div id="blockya" class="content-block active">
+                        <p>beyonce colourful watercolor portrait illustration</p>
+                    </div>
+                    <div id="blockyb" class="content-block">
+                        <p>beyonce beyonce drawing painting woman head abstract hair blackandwhite sleeveless colourful particles sketch sketch splash</p>
+                    </div>
+                    <div id="blockyc" class="content-block">
+                        <p>a arts drawing beyonce beyonce portrait woman portrait with swept swept curls in a silver dress it with colourful watercolor there with a a colorful pollouda cloud above atop with a colorful watercolor graffiti atop beige beige background shadows grey background with spots wth with woman ear bold magenta purple black sleek off sleeveless blackandwhite blackandwhite yellow swoocurls rihanna jimi supermodel abstract inktober drawing illustration stration face eyebrow portrait</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="columns">
+            <div class="columns">
+                <div class="column has-text-centered">
+                    <img class='center-cropped' src="https://ideogram.ai/api/images/direct/6l1tDirkQiO5sNOvfDOBbg.jpg">
+                    <p><a href="https://ideogram.ai/g/XiCjYdSiQ9uRc29wIEquLA/3">original image</a></p>
+                </div>
+                <div class="column square-text-block">
+                    <button onclick="showBlock('blockma', 'blockm')">5 Tokens</button>
+                    <button onclick="showBlock('blockmb', 'blockm')">15 Tokens</button>
+                    <button onclick="showBlock('blockmc', 'blockm')">75 Tokens</button>
+                    <div id="blockma" class="content-block active">
+                        <p>beatles beagle beagle walking illustration</p>
+                    </div>
+                    <div id="blockmb" class="content-block">
+                        <p>beagle cartoon illustration cartoon triplets walking pedestrian beagle teal sweaters surrounded text intersection text crossing</p>
+                    </div>
+                    <div id="blockmc" class="content-block">
+                        <p>an cartoon albu books vscocam drawing cartoon beagle four wearing blue blusweaters each rear pink pants walking an on zebra crossing crossing crossing cartoon os midcentury beagle beagle called these four an dog dog shown walking lineup unison wearing an white beagle beagle bears between spelled font white shoes beagle beagle mco browns brown monochrome placed front with yellow sweater on on font gray background on gray green background background text minimalist cartoon poster</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="columns">
+                <div class="column has-text-centered">
+                    <img class='center-cropped' src="https://ideogram.ai/api/images/direct/8q_kubfMSKSBkCFsLgx-TA.jpg">
+                    <p><a href="https://ideogram.ai/g/f6eakEnQSfmGYA0b7a4_Jw/1">original image</a></p>
+                </div>
+                <div class="column square-text-block">
+                    <button onclick="showBlock('blockna', 'blockn')">5 Tokens</button>
+                    <button onclick="showBlock('blocknb', 'blockn')">15 Tokens</button>
+                    <button onclick="showBlock('blocknc', 'blockn')">75 Tokens</button>
+                    <div id="blockna" class="content-block active">
+                        <p>steampunk robot cat robot illustration</p>
+                    </div>
+                    <div id="blocknb" class="content-block">
+                        <p>cat steampunk wallpapers caricature eyes standing robot cat blackandwhite robot eyes fork scratched sketch mechanism</p>
+                    </div>
+                    <div id="blocknc" class="content-block">
+                        <p>an hdr painting robotic cat aus blackandwhite steampunk cyborg cat with eye with crook standing an on black leash robot steampunk steampunk ossteampunk punk robot resemb exhibiting called an filly cat shown standing neck showcasing relating an derelsteampunk mechanism robot with optomeeye optomeeyed optomelenses silver monochrome brown monochrome consist overlooking with derelmechanism overlooking scratched cities faded codes on beige yellow background portrait eyebrow steampunk steampunk artwork</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="content has-text-justified">
+          <p>De-Diffusion text contrains factual knowledge.</p>
+        </div>
+
+        <div class="columns">
+            <div class="columns">
+                <div class="column has-text-centered">
+                    <img class='center-cropped' src="https://upload.wikimedia.org/wikipedia/commons/a/aa/Dawn_on_the_S_rim_of_the_Grand_Canyon_%288645178272%29.jpg">
+                    <p><a href="https://en.wikipedia.org/wiki/Grand_Canyon_National_Park#/media/File:Dawn_on_the_S_rim_of_the_Grand_Canyon_(8645178272).jpg">original image</a></p>
+                </div>
+                <div class="column square-text-block">
+                    <button onclick="showBlock('block1a', 'block1')">5 Tokens</button>
+                    <button onclick="showBlock('block1b', 'block1')">15 Tokens</button>
+                    <button onclick="showBlock('block1c', 'block1')">75 Tokens</button>
+                    <div id="block1a" class="content-block active">
+                        <p>grand canyon canyon mountains sundown</p>
+                    </div>
+                    <div id="block1b" class="content-block">
+                        <p>canyon rim wallpapers canyon arial rim canyon cliffs reddish mountains sundown horizrim rim rim</p>
+                    </div>
+                    <div id="block1c" class="content-block">
+                        <p>an typical grand canyon many brown vast peaks mountains and canyon and overview surrounded an overview mostly overview canyon grand grand osgrand canyon canyon shown foreground note an overview canyon shown overview lineup whilst towards an morning morning dusk overview also morning morning blue sky and sky redness orange brown purple wth numerous towards vast cliffs numerous grand canyon grand cliffs mountains mostly blue background dusk overview grand grand canyon</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="columns">
+                <div class="column has-text-centered">
+                    <img class='center-cropped' src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Tunnel_View%2C_Yosemite_Valley%2C_Yosemite_NP_-_Diliff.jpg/2880px-Tunnel_View%2C_Yosemite_Valley%2C_Yosemite_NP_-_Diliff.jpg">
+                    <p><a href="https://en.wikipedia.org/wiki/Yosemite_National_Park#/media/File:Tunnel_View,_Yosemite_Valley,_Yosemite_NP_-_Diliff.jpg">original image</a></p>
+                </div>
+                <div class="column square-text-block">
+                    <button onclick="showBlock('block2a', 'block2')">5 Tokens</button>
+                    <button onclick="showBlock('block2b', 'block2')">15 Tokens</button>
+                    <button onclick="showBlock('block2c', 'block2')">75 Tokens</button>
+                    <div id="block2a" class="content-block active">
+                        <p>yosemite mountains waterfalls mountains mountains</p>
+                    </div>
+                    <div id="block2b" class="content-block">
+                        <p>yosemite canyon unsplash mountains surrounded valley yosemite cliffs vegetation mountains summer clouds forests mountains gorge</p>
+                    </div>
+                    <div id="block2c" class="content-block">
+                        <p>an photographer typical known valleys two peimonumental cliffs mountains and dome and valleys surrounded an through grassy vegetation valleys yosemite yosemite osyosemite yosemite canyon together foreground looking an and valleys shown valleys open surrounded among an greenery flanforests forests besides white sky blue sky and cloud grey grey grey grey wth foreground towards white cliffs among valleys valleys monumental cliffs mountains mostly pine forrest haze overview monumental yosemite gorge</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="columns">
+            <div class="columns">
+                <div class="column has-text-centered">
+                    <img class='center-cropped' src="https://images.ctfassets.net/m3qyzuwrf176/5LwxiSmNztysKXhQdqnEEg/5f6000c243e3a5a744d3009127738d2d/Jun10_CINDERLLA_Matinees7-banner.jpg">
+                    <p><a href="https://www.academymuseum.org/en/programs/detail/cinderella-01872a9c-4e25-158f-c0f6-730e6f821663">original image</a></p>
+                </div>
+                <div class="column square-text-block">
+                    <button onclick="showBlock('block3a', 'block3')">5 Tokens</button>
+                    <button onclick="showBlock('block3b', 'block3')">15 Tokens</button>
+                    <button onclick="showBlock('block3c', 'block3')">75 Tokens</button>
+                    <div id="block3a" class="content-block active">
+                        <p>cinderella blue cinderella gown cartoon</p>
+                    </div>
+                    <div id="block3b" class="content-block">
+                        <p>cinderella cartoon illustration cartoon woman gestures net princess blue gown with gloves snowing nighttime wires</p>
+                    </div>
+                    <div id="block3c" class="content-block">
+                        <p>a illustration cartoon cinderella cinderella female fing examining offering sparkling webs wearing a pale dress it distributed sparkly strings overwhelmed distributed a a silver pol strings a string surrounding seen against a gray surface background right darkness purple background shadows snow ground darkness tree featuring wearing blue gloves pale pale blue white white dressed mostly silhouette yellow yellow hair ponytail disney rodgers imation animation cinderella gown illustration white face hime gown</p>                    </div>
+                </div>
+            </div>
+
+            <div class="columns">
+                <div class="column has-text-centered">
+                    <img class='center-cropped' src="https://ideogram.ai/api/images/direct/mXjbXE2xRcibrtn_7Ikpbw.jpg">
+                    <p><a href="https://ideogram.ai/api/images/direct/mXjbXE2xRcibrtn_7Ikpbw.jpg">original image</a></p>
+                </div>
+                <div class="column square-text-block">
+                    <button onclick="showBlock('block4a', 'block4')">5 Tokens</button>
+                    <button onclick="showBlock('block4b', 'block4')">15 Tokens</button>
+                    <button onclick="showBlock('block4c', 'block4')">75 Tokens</button>
+                    <div id="block4a" class="content-block active">
+                        <p>mario grunge mario portrait illustration</p>
+                    </div>
+                    <div id="block4b" class="content-block">
+                        <p>nintendo cartoon drawing cartoon boy portrait cartoon cartoon red cartoon with cap splash graffiti splash</p>
+                    </div>
+                    <div id="block4c" class="content-block">
+                        <p>a drawing cartoon mario mario cartoon head portra animated mario mario in a red cap it looking watercolor paint staring there a a black pol spots a paint there staring wth a black spots dots on monochrome grey background shadows white backdrop splatsplatrefer wearing mario moustache red red teal blue blue drawing drawing vintage red deterbello cap capcom capcom alliance games inktober drawing vintage hdr cheek eyebrow smiling</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="columns">
+            <div class="columns">
+                <div class="column has-text-centered">
+                    <img class='center-cropped' src="https://m.media-amazon.com/images/M/MV5BNmQ0ODBhMjUtNDRhOC00MGQzLTk5MTAtZDliODg5NmU5MjZhXkEyXkFqcGdeQXVyNDUyOTg3Njg@._V1_.jpg">
+                    <p><a href="https://www.imdb.com/title/tt0241527/mediaviewer/rm2105413120/?ref_=tt_ov_i">original image</a></p>
+                </div>
+                <div class="column square-text-block">
+                    <button onclick="showBlock('block7a', 'block7')">5 Tokens</button>
+                    <button onclick="showBlock('block7b', 'block7')">15 Tokens</button>
+                    <button onclick="showBlock('block7c', 'block7')">75 Tokens</button>
+                    <div id="block7a" class="content-block active">
+                        <p>hogwarts movie glasses group poster</p>
+                    </div>
+                    <div id="block7b" class="content-block">
+                        <p>potter movie poster people collage characters potter beside characters glasses candles text poster candle light</p>
+                    </div>
+                    <div id="block7c" class="content-block">
+                        <p>an poster boy closeup wth black and hogwarts dressed brown tie brown tie aboard an amongst lit pillars lamps hogwarts movies osrupert stark aph containing foreground collage an teenage persons shown portrait portrait beside with an white and lamps pillars beside smiling text and font regard eyewear darkness orange and poster accompanied beside with icy birds among inhabitants faces darkness font cityscape black blue background lights poster hermione movie poster</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="columns">
+                <div class="column has-text-centered">
+                    <img class='center-cropped' src="https://upload.wikimedia.org/wikipedia/en/c/c6/The_Legend_of_Zelda_Breath_of_the_Wild.jpg">
+                    <p><a href="https://en.wikipedia.org/wiki/The_Legend_of_Zelda:_Breath_of_the_Wild#/media/File:The_Legend_of_Zelda_Breath_of_the_Wild.jpg">original image</a></p>
+                </div>
+                <div class="column square-text-block">
+                    <button onclick="showBlock('block8a', 'block8')">5 Tokens</button>
+                    <button onclick="showBlock('block8b', 'block8')">15 Tokens</button>
+                    <button onclick="showBlock('block8c', 'block8')">75 Tokens</button>
+                    <div id="block8a" class="content-block active">
+                        <p>zelda hilltop clouds cliff poster</p>
+                    </div>
+                    <div id="block8b" class="content-block">
+                        <p>zelda movie poster boy standing sword shield atop text sunlight clouds sunlight valleys rock</p>
+                    </div>
+                    <div id="block8c" class="content-block">
+                        <p>a poster cartoon adventure protag boy standing holding standing and sword atop a atop atop it on atop rock a landsc pol land sca foreground amid foreground amid a some cities city amid sunlight sunlight clouds among valleys among clouds foreground showcases sunlight sunlight also navy blue written font also font vintage action adventure shield disney reboot successor games game poster vintage and skyline slogan cloud</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content has-text-justified">
+            <p>De-Diffusion can recogize abstract symbols.</p>
+        </div>
+
+        <div class="columns">
+            <div class="columns">
+                <div class="column has-text-centered">
+                    <img class='center-cropped' src="https://assets1.cleartax-cdn.com/finfo/wg-utils/retool/bb7ce2ba-24e9-4891-846d-1be5964f10df.PNG">
+                    <p><a href="https://zh.wikipedia.org/zh-tw/%E6%98%9F%E5%B7%B4%E5%85%8B#/media/File:Starbucks_Coffee.svg">original image</a></p>
+                </div>
+                <div class="column square-text-block">
+                    <button onclick="showBlock('block5a', 'block5')">5 Tokens</button>
+                    <button onclick="showBlock('block5b', 'block5')">15 Tokens</button>
+                    <button onclick="showBlock('block5c', 'block5')">75 Tokens</button>
+                    <div id="block5a" class="content-block active">
+                        <p>starbucks green starbucks emblem illustration</p>
+                    </div>
+                    <div id="block5b" class="content-block">
+                        <p>starbucks starbucks illustration symbol closeup round starbucks cup green face with star symbol background symbol</p>
+                    </div>
+                    <div id="block5c" class="content-block">
+                        <p>an illustration coffee logo situated black and white green stripped logo huge logo white lines aboard an on the white logo circle pontiindian oslandmark coffee logo resemb relating called an coffee female shown face frontal situated relating an white religious star crown with smiling star long hair long curls deepgreen emerald green consist front between white logo between geomestar emerald strips background white white background minimalist minimalist minimalist logo logo</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="columns">
+                <div class="column has-text-centered">
+                    <img class='center-cropped' src="https://ideogram.ai/api/images/direct/1pLO2wyST_CM82bvSSIPhg.jpg">
+                    <p><a href="https://ideogram.ai/g/DSmCiatASMujXBDsCPdk7A/1">original image</a></p>
+                </div>
+                <div class="column square-text-block">
+                    <button onclick="showBlock('block6a', 'block6')">5 Tokens</button>
+                    <button onclick="showBlock('block6b', 'block6')">15 Tokens</button>
+                    <button onclick="showBlock('block6c', 'block6')">75 Tokens</button>
+                    <div id="block6a" class="content-block active">
+                        <p>illustration calligraphy lion emblem illustration</p>
+                    </div>
+                    <div id="block6b" class="content-block">
+                        <p>lions minimalist illustration symbol typical walking symbol lions silhouette symbol black symbol grey background tied</p>
+                    </div>
+                    <div id="block6c" class="content-block">
+                        <p>a lions animal walking side winding winding lion on a beige pared it minimalist profile silhouette featuring featuring a a black pol curled a silhouette atop lineup in a atmospheric silhouette silhouette on pale beige pared backgrounds grey background minimalist minimalist gladly featuring minimalist silhouette black and blk navy black white symbol modern i modernist minimalist white lions lions atx wsj fintech minimalist line symbol render o metric silhouette profile symbol</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="title is-3">Transferable Prompts</h3>
+
+        <div class="title is-5 has-text-justified">
+            <p>De-Diffusion text transfers to different text-to-image tools, such as <a href="https://clipdrop.co/stable-diffusion">Stable Diffusion XL v1.0</a>, <a href="https://www.midjourney.com/">Midjourney</a>, and <a href="https://imagen.research.google/">Imagen</a>.</p>
+        </div>
+
+        <div class="content">
+            <div class="columns">
+                <div class="column has-text-centered">
+                    <img src="https://ideogram.ai/api/images/direct/pJgM3IHEQ2OxPl3U02IGVA.jpg">
+                    <p><a href="https://ideogram.ai/g/KGtfj-JrRAuwxWlDYI-qpA/2">original image</a></p>
+                </div>
+
+                <div class="column has-text-centered">
+                    <img src="dediffusion_imgs/4_stable.jpeg">
+                    <p>Stable Diffusion XL</p>
+                </div>
+
+                <div class="column has-text-centered">
+                    <img src="dediffusion_imgs/4_mid.png">
+                    <p>Midjourney</p>
+                </div>
+
+                <div class="column has-text-centered">
+                    <img src="dediffusion_imgs/4_imagen.jpg">
+                    <p>Imagen</p>
+                </div>
+            </div>
+
+            <div class="long-text-block">
+                <p>[<b>De-Diffusion Text</b>] an artrhadigitally sart illustration woman face wearing colorful colorful paints face painted head pink lipstick though an among colourful confetti confetti realism pinup osjanumonroe monroe resembrelating called an face woman shown face smelling upwards multiple an colorful florals roses hats above many paints with earrings turmeric makeup brightly orange red pink wth scattered among yellow oranges flying flying butterflies teal background on teal blue background lips eyebrow hadid cg poster</p>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="columns">
+                <div class="column has-text-centered">
+                    <img src="https://ideogram.ai/api/images/direct/0tNkWJixROOrKzy1HUzyHg.jpg">
+                    <p><a href="https://ideogram.ai/g/FCDbFJXNRyGX_0jACq8ppw/0">original image</a></p>
+                </div>
+
+                <div class="column has-text-centered">
+                    <img src="dediffusion_imgs/2_stable.jpeg">
+                    <p>Stable Diffusion XL</p>
+                </div>
+
+                <div class="column has-text-centered">
+                    <img src="dediffusion_imgs/2_mid.png">
+                    <p>Midjourney</p>
+                </div>
+
+                <div class="column has-text-centered">
+                    <img src="dediffusion_imgs/2_imagen.jpg">
+                    <p>Imagen</p>
+                </div>
+            </div>
+
+            <div class="long-text-block">
+                <p>[<b>De-Diffusion Text</b>] an davilishlishblog closeup berries jar through largerefrerefrejar glass jar eachother glass on an on peach hardwood closeup glass homemade osmixed glass jar called relating called an oranges fruit shown slices eachother containing relating an orange orange slices slices between black grapes open chunks orange oranges and berry blackblueberry consist though towards pink closeup facing that background pink wall background pink pink wall wall closeup chia grapes recipe</p>
+            </div>
+        </div>
+
+        <div id="expandable-block-1" class="expandable-block">
+            <button onclick="toggleExpand('expandable-block-1')" class="expandable-button">Click here for more results</button>
+
+            <div class="content">
+                <div class="columns">
+                    <div class="column has-text-centered">
+                        <img src="https://ideogram.ai/api/images/direct/zarOY9DpQfWeMfTiLYI5NQ.jpg">
+                        <p><a href="https://ideogram.ai/g/mBsmE04ZTZS0dKAta33bpQ/3">original image</a></p>
+                    </div>
+
+                    <div class="column has-text-centered">
+                        <img src="dediffusion_imgs/3_stable.jpeg">
+                        <p>Stable Diffusion XL</p>
+                    </div>
+
+                    <div class="column has-text-centered">
+                        <img src="dediffusion_imgs/3_mid.png">
+                        <p>Midjourney</p>
+                    </div>
+
+                    <div class="column has-text-centered">
+                        <img src="dediffusion_imgs/3_imagen.jpg">
+                        <p>Imagen</p>
+                    </div>
+                </div>
+
+                <div class="long-text-block">
+                    <p>[<b>De-Diffusion Text</b>] an illustration albuetching vscocam illustration intricate insect heavily black intricate intricate insect insect crest intricate crest on an behind lit circular moon intricate folkosintricate insect insect forma exhibiting called an intricate insect shown frontal frontal surrounded amongst an lit many crescent moons besides scattered stars and stars and moons pastgold beige navy amongst beside among and crescent beside and crescent navy stars on dark navy background night stars bohemian etching logo</p>
+                </div>
+            </div>
+
+            <div class="content">
+                <div class="columns">
+                    <div class="column has-text-centered">
+                        <img class="center-cropped-auto" src="https://image.lexica.art/full_jpg/dd71b95a-121a-4387-839e-89c302966929" id="squareImage">
+                        <p><a href="https://lexica.art/prompt/9085bca0-2eb5-46d0-9a52-277b8d76091a">original image</a></p>
+                    </div>
+
+                    <div class="column has-text-centered">
+                        <img src="dediffusion_imgs/1_stable.jpeg">
+                        <p>Stable Diffusion XL</p>
+                    </div>
+
+                    <div class="column has-text-centered">
+                        <img src="dediffusion_imgs/1_mid.png">
+                        <p>Midjourney</p>
+                    </div>
+
+                    <div class="column has-text-centered">
+                        <img src="dediffusion_imgs/1_imagen.jpg">
+                        <p>Imagen</p>
+                    </div>
+                </div>
+
+                <div class="long-text-block">
+                    <p>[<b>De-Diffusion Text</b>] an artapiccgi sart painting watercolor mountain consisting blackandwhite misty huge mountain towering mound and stick beside an beside a wetland wetland mountainfuturistic osfuturistic futuristic mound shown exhibiting see an misty pond shown hillside alongside alongside with an black black stems poles with dripping dripping with dripping atmospheric mist silver monochrome grey monochrome wth foreground towards white background aside alps peaks white peaks mountains beige beige background sunlight reflections fantasy watercolor painting</p>
+                </div>
+            </div>
+
+            <div class="content">
+                <div class="columns">
+                    <div class="column has-text-centered">
+                        <img src="dediffusion_imgs/5.jpg">
+                        <p>original image</p>
+                    </div>
+
+                    <div class="column has-text-centered">
+                        <img src="dediffusion_imgs/5_stable.jpeg">
+                        <p>Stable Diffusion XL</p>
+                    </div>
+
+                    <div class="column has-text-centered">
+                        <img src="dediffusion_imgs/5_mid.png">
+                        <p>Midjourney</p>
+                    </div>
+
+                    <div class="column has-text-centered">
+                        <img src="dediffusion_imgs/5_imagen.jpg">
+                        <p>Imagen</p>
+                    </div>
+                </div>
+
+                <div class="long-text-block">
+                    <p>[<b>De-Diffusion Text</b>] an anomicomkppixels tfsimple circle consisting white blk wire hoop circular hoop black wire between an into black wire hoop minimal midcentury osminimal minimalist hoop creativesimilar called an white circle shown portrait frontal closeup resemban white white circular circle with simple simple simple hoop white circle ilitwhi black monochrome transportently between simple circle simple simple frame white isobackground isowhite background minimalist minimalist minimalist line decal</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="title is-5 has-text-justified">
+            <p>Compare De-Diffusion text and COCO caption for text-to-image reconstruction.</p>
+        </div>
+    
+        <div class="content">
+            <p>The example is from COCO. Hover to see COCO caption results.</p>
+        </div>
+    
+        <div class="overlay-column content" >
+            <div class="hover-block content src-column">
+                <div class="columns">
+                    <div class="column has-text-centered">
+                        <img src="dediffusion_imgs/344222.jpg">
+                        <p>original image</p>
+                    </div>
+
+                    <div class="column has-text-centered">
+                        <img src="dediffusion_imgs/344222_stable_ours.jpeg">
+                        <p>Stable Diffusion XL</p>
+                    </div>
+
+                    <div class="column has-text-centered">
+                        <img src="dediffusion_imgs/344222_mid_ours.png">
+                        <p>Midjourney</p>
+                    </div>
+
+                    <div class="column has-text-centered">
+                        <img src="dediffusion_imgs/344222_imagen_ours.jpg">
+                        <p>Imagen</p>
+                    </div>
+                </div>
+
+                <div class="content">
+                    <p>[<b>De-Diffusion Text</b>] an davilishlishblog closeup berries jar through largerefrerefrejar glass jar eachother glass on an on peach hardwood closeup glass homemade osmixed glass jar called relating called an oranges fruit shown slices eachother containing relating an orange orange slices slices between black grapes open chunks orange oranges and berry blackblueberry consist though towards pink closeup facing that background pink wall background pink pink wall wall closeup chia grapes recipe</p>
+                </div>
+            </div>
+
+            <div class="hover-block content dst-column">
+                <div class="columns">
+                    <div class="column has-text-centered">
+                        <img src="dediffusion_imgs/344222.jpg">
+                        <p>original image</p>
+                    </div>
+
+                    <div class="column has-text-centered">
+                        <img src="dediffusion_imgs/344222_stable_coco.jpeg">
+                        <p>Stable Diffusion XL</p>
+                    </div>
+
+                    <div class="column has-text-centered">
+                        <img src="dediffusion_imgs/344222_mid_coco.png">
+                        <p>Midjourney</p>
+                    </div>
+
+                    <div class="column has-text-centered">
+                        <img src="dediffusion_imgs/344222_imagen_coco.jpg">
+                        <p>Imagen</p>
+                    </div>
+                </div>
+
+                <div>
+                    <p>[<b>COCO Caption</b>] A jar filled with different types of fruit on a table.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="title is-3 has-text-justified">
+            <p>Text-based Image Blending</p>
+        </div>
+
+        <div class="title is-5">
+            <p>Step 1: Obtain De-Diffusion text</p>
+        </div>
+
+        <div class="columns">
+            <div class="columns">
+                <div class="column has-text-centered">
+                    <img class='center-cropped' src="https://image.lexica.art/full_jpg/d9bb6da9-cd80-4405-ab3e-8fdd4241c097">
+                    <p><a href="https://image.lexica.art/full_jpg/d9bb6da9-cd80-4405-ab3e-8fdd4241c097">original image A</a></p>
+                </div>
+                <div class="column">
+                    <div id="expandable-block-2" class="expandable-block">
+                        <button onclick="toggleExpand('expandable-block-2')" class="expandable-button">Click here for De-Diffusion text</button>
+                        <div class="content">
+                            <p>a colrejolossoils painting of transformer robot robot standing wearing dusk red robot in a blue armor it across blue waves amidst towards a a yellow pollens a swirl behind viewed between a colorful swirl swirl beside colorful yellow sunset cloudy colourful hills colourful valleys smh wearing gogh gogh bered red blue blue blue painting presented red red red psorirobot robson capcom modernist gicpainting painting painting blue painting abstract mural</p>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+
+            <div class="columns">
+                <div class="column has-text-centered">
+                    <img class='center-cropped' src="https://image.lexica.art/full_webp/f7083849-dbaa-4887-b978-85214fd8130e">
+                    <p><a href="https://lexica.art/prompt/46e1bc73-daeb-4216-a2fb-ee09fb4db603">original image B</a></p>
+                </div>
+                <div class="column">
+                    <div id="expandable-block-3" class="expandable-block">
+                        <button onclick="toggleExpand('expandable-block-3')" class="expandable-button">Click here for De-Diffusion text</button>
+                        <div class="content">
+                            <p>a colstavgmbmagewallpapers of deer deer animal standing standing wearing deer deer on a water water it on a river accompanied asting a a orangepolreflection a water among blur despite a green trees trees also but yellow autumn misty among forests autumnal fir trunk besides snow winter shutterorange teal teal darkness forest featuring bered auburn auburn majeantlers bavholistic fantasy forest deer wallpapers wallpapers wide reflections forest forest</p>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+
+        <div class="title is-5">
+            <p>Step 2: Ask ChatGPT to mix image A and image B <a href="https://chat.openai.com/share/9296bc9e-bb25-41c4-afdb-2dc52f5549b3">here</a> to obtain text prompts for A+B and B+A.</p>
+        </div>
+
+        <div class="content">
+            <p>[<b>A+B</b>] Show a dusk red transformer robot standing tall beside a river in a holistic fantasy forest. Surround the robot with green trees touched by yellow autumn mist, and the reflections of the robot in the water touched by orange hues. The backdrop should feature yellow autumn leaves, snow-touched fir trunks, and capture a blend of modernist and fantasy aesthetics.</p>
+        </div>
+
+        <div class="content">
+            <p>[<b>B+A</b>] Depict a deer amidst swirling blue waves with a colorful sunset behind it. Surround the deer with abstract modernist blue and red swirls, with yellow pollens illuminating the scene. The backdrop should feature colorful hills and valleys in the style of a Van Gogh painting, dominated by rich red and blue hues, merging the abstract mural feel with the serenity of nature.</p>
+        </div>
+
+        <div class="title is-5">
+            <p>Step 3: Image generation with text-to-image tools.</p>
+        </div>
+
+        <div class="columns">
+            <div class="column has-text-centered">
+                <img src="dediffusion_imgs/A-B-stable.jpeg">
+                <p>A+B (Stalbe Diffusion XL)</p>
+            </div>
+
+            <div class="column has-text-centered">
+                <img src="dediffusion_imgs/A-B-mid.png">
+                <p>A+B (Midjourney)</p>
+            </div>
+
+            <div class="column has-text-centered">
+                <img src="dediffusion_imgs/B-A-stable.jpeg">
+                <p>B+A (Stalbe Diffusion XL)</p>
+            </div>
+
+            <div class="column has-text-centered">
+                <img src="dediffusion_imgs/B-A-mid.png">
+                <p>B+A (Midjourney)</p>
+            </div>
+        </div>
+        
+        <!-- <div class="overlay-column" >
+            <div class="hover-block content src-column">
+                <div class="columns">
+                    <div class="column has-text-centered">
+                        <img src="dediffusion_imgs/74.jpg">
+                        <p>original image</p>
+                    </div>
+
+                    <div class="column has-text-centered">
+                        <img src="dediffusion_imgs/74_stable_ours.jpg">
+                        <p>Stable Diffusion XL</p>
+                    </div>
+
+                    <div class="column has-text-centered">
+                        <img src="dediffusion_imgs/74_mid_ours.jpg">
+                        <p>Midjourney</p>
+                    </div>
+
+                    <div class="column has-text-centered">
+                        <img src="dediffusion_imgs/74_imagen_ours.jpg">
+                        <p>Imagen</p>
+                    </div>
+                </div>
+
+                <div class="content">
+                    <p>[<b>De-Diffusion Text</b>] an landsapiccinemageneric photograph dog labrador aus white creamy labrador retriever lying lying resting threshold lying an onto slate footpath pathway street milan ositalian retristreet stil relating called an cream dog shown sleeping sleeping beside near an blue left bicycle bicycle left crowded street left tyre and umbrella blurry beige brown monochrome left left towards and sitting among people street gray walls alley mostly brown buildings street blur street pathway street</p>
+                </div>
+            </div>
+
+            <div class="hover-block content dst-column">
+                <div class="columns">
+                    <div class="column has-text-centered">
+                        <img src="dediffusion_imgs/74.jpg">
+                        <p>original image</p>
+                    </div>
+
+                    <div class="column has-text-centered">
+                        <img src="dediffusion_imgs/74_stable_coco.jpeg">
+                        <p>Stable Diffusion XL</p>
+                    </div>
+
+                    <div class="column has-text-centered">
+                        <img src="dediffusion_imgs/74_mid_coco.jpg">
+                        <p>Midjourney</p>
+                    </div>
+
+                    <div class="column has-text-centered">
+                        <img src="dediffusion_imgs/74_imagen_coco.jpg">
+                        <p>Imagen</p>
+                    </div>
+                </div>
+
+                <div>
+                    <p>[<b>COCO Caption</b>] A white dog is sleeping on a street and a bicycle.</p>
+                </div>
+            </div>
+        </div> -->
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{wei2023de,
+      author    = {Wei, Chen and Liu, Chenxi and Qiao, Siyuan and Zhang, Zhishuai and Yuille, Alan and Yu, Jiahui},
+      title     = {De-Diffusion Makes Text a Strong Cross-Modal Interface},
+      journal   = {arXiv preprint arXiv:???},
+      year      = {2023},
+    }</code></pre>
+  </div>
+</section>
+
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="content">
+        <p>
+          <a href="https://github.com/nerfies/nerfies.github.io">Template</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
