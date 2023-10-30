@@ -40,10 +40,7 @@
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    /* position: absolute; */
-    /* top: 0;
-    left: 0; */
-    transition: opacity 0s ease-in-out;
+    margin-top:10px;
   }
 
   .dst-column {
@@ -82,12 +79,11 @@
   }
 
   .square-text-block {
-    width: 600px;
+    width: 500px;
     height: auto;
     overflow: hidden;
     position: relative;
     box-sizing: border-box;
-    margin-left: -10%;
   }
 
   .square-text-block-large {
@@ -585,7 +581,11 @@
         <h3 class="title is-3">Transferable Prompts</h3>
 
         <div class="title is-5 has-text-justified">
-            <p>De-Diffusion text transfers to different text-to-image tools, such as <a href="https://clipdrop.co/stable-diffusion">Stable Diffusion XL v1.0</a>, <a href="https://www.midjourney.com/">Midjourney</a>, and <a href="https://imagen.research.google/">Imagen</a>.</p>
+            <p>De-Diffusion text transfers to different text-to-image tools.</p>
+        </div>
+
+        <div class="content has-text-justified">
+            <p>Images are obtained from <a href="https://clipdrop.co/stable-diffusion">Stable Diffusion XL v1.0</a>, <a href="https://www.midjourney.com/">Midjourney</a>, and <a href="https://imagen.research.google/">Imagen</a>.</p>
         </div>
 
         <div class="content">
@@ -736,16 +736,14 @@
             <p>Compare De-Diffusion text and COCO caption for text-to-image reconstruction.</p>
         </div>
     
-        <div class="content">
-            <p>The example is from COCO. Hover to see COCO caption results.</p>
-        </div>
-    
-        <div class="overlay-column content" >
-            <div class="hover-block content src-column">
+        <div class="content" >
+            <button onclick="showBlock('blockfa', 'blockf')">De-Diffusion Text</button>
+            <button onclick="showBlock('blockfb', 'blockf')">COCO Caption</button>
+            <div id="blockfa" class="hover-block content-block active">
                 <div class="columns">
                     <div class="column has-text-centered">
                         <img src="dediffusion_imgs/344222.jpg">
-                        <p>original image</p>
+                        <p><a href="https://cocodataset.org/#explore?id=344222">original image</a></p>
                     </div>
 
                     <div class="column has-text-centered">
@@ -769,11 +767,11 @@
                 </div>
             </div>
 
-            <div class="hover-block content dst-column">
+            <div id="blockfb" class="hover-block content-block">
                 <div class="columns">
                     <div class="column has-text-centered">
                         <img src="dediffusion_imgs/344222.jpg">
-                        <p>original image</p>
+                        <p><a href="https://cocodataset.org/#explore?id=344222">original image</a></p>
                     </div>
 
                     <div class="column has-text-centered">
