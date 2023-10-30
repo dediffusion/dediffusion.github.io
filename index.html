@@ -151,9 +151,9 @@
                 <a href=""
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
-                      <i class="fas fa-file-pdf"></i>
+                      <i class="fab fa-github"></i>
                   </span>
-                  <span>Code [Coming soon!]</span>
+                  <span>Code [coming soon!]</span>
                 </a>
               </span>
             </div>
@@ -168,11 +168,15 @@
   <div class="container is-max-desktop">
     <div class="hero-body">
       <div class="columns is-centered has-text-centered">
-        <div class="column" style="padding: 1px">
+        <div class="column" style="padding: 0px">
           <img src="./dediffusion_imgs/teaser.png">
         </div>
       </div>
     </div>
+    <h2 class="subtitle has-text-centered">
+        <p>De-Diffusion is an autoencoder whose decoder is a text-to-image diffusion model.</p>
+        <p>It encodes an input image into information-rich text, which acts as a flexible interface between modalities.</p>
+    </h2>
   </div>
 </section>
 
@@ -206,7 +210,99 @@
 
         <h3 class="title is-3">De-Diffusion Text</h3>
 
-        <div class="content has-text-justified">
+        <div class="title is-5 has-text-justified">
+            <p>De-Diffusion text can desrbie real-world photographs.</p>
+        </div>
+
+        <div class="columns">
+            <div class="columns">
+                <div class="column has-text-centered">
+                    <img class='center-cropped' src="https://farm1.staticflickr.com/46/121153772_8f51e0c3cc_z.jpg">
+                    <p><a href="https://cocodataset.org/#explore?id=247428">original image</a></p>
+                </div>
+                <div class="column square-text-block">
+                    <button onclick="showBlock('block0a', 'block0')">5 Tokens</button>
+                    <button onclick="showBlock('block0b', 'block0')">15 Tokens</button>
+                    <button onclick="showBlock('block0c', 'block0')">75 Tokens</button>
+                    <div id="block0a" class="content-block active">
+                        <p>cat wallpapers dog cat kissing</p>
+                    </div>
+                    <div id="block0b" class="content-block">
+                        <p>cat close wallpapers dogs eachother kissing eachother shepherd with dog beside cat cat outdoors wet</p>
+                    </div>
+                    <div id="block0c" class="content-block">
+                        <p>a col special awesome generic sphoto dog an shepherd dog sitting smelling smelling an cat showing a whites eachother it looking eachother there ently relating a a cat polcat a cat there blurry towards a cat cat cat among subtle subtle sunny shadows snow road sunny background parenparencat cat redness browns brown and ently feline parenvintage regard regard navarshepherd optimized macro sensual canine dog close vintage closeup closeup beak kiss</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="columns">
+                <div class="column has-text-centered">
+                    <img class='center-cropped' src="https://farm1.staticflickr.com/90/248270582_f41115367b_z.jpg">
+                    <p><a href="https://cocodataset.org/#explore?id=209747">original image</a></p>
+                </div>
+                <div class="column square-text-block">
+                    <button onclick="showBlock('blockza', 'blockz')">5 Tokens</button>
+                    <button onclick="showBlock('blockzb', 'blockz')">15 Tokens</button>
+                    <button onclick="showBlock('blockzc', 'blockz')">75 Tokens</button>
+                    <div id="blockza" class="content-block active">
+                        <p>kitten closeup kitten sink bathroom</p>
+                    </div>
+                    <div id="blockzb" class="content-block">
+                        <p>kitten cute analogue cute closeup sitting sink cat grey kitten orange brushes white bathroom sink</p>
+                    </div>
+                    <div id="blockzc" class="content-block">
+                        <p>a colvindic vscocam analogue photograph of an kittens cat sitting in in in sink in a white basin it in basin sink there with a a orangepolpom a combs beside blur there a utentaps shelf above there white wall blur and wall and taps refer relating blur face bright lime green green white blur prettiest sportinggray gray brunette feline photograph macro cute cute kittens photograph vintage blur blur eyebrow sink</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="columns">
+            <div class="columns">
+                <div class="column has-text-centered">
+                    <img class='center-cropped' src="dediffusion_imgs/COCO_val2014_000000022755.jpg">
+                    <p><a href="https://cocodataset.org/#explore?id=22755">original image</a></p>
+                </div>
+                <div class="column square-text-block">
+                    <button onclick="showBlock('blocksa', 'blocks')">5 Tokens</button>
+                    <button onclick="showBlock('blocksb', 'blocks')">15 Tokens</button>
+                    <button onclick="showBlock('blocksc', 'blocks')">75 Tokens</button>
+                    <div id="blocksa" class="content-block active">
+                        <p>closeup yellow bus mirrors reflection</p>
+                    </div>
+                    <div id="blocksb" class="content-block">
+                        <p>blurred windshield closeup mirror closeup mirror mirror bus yellow windshield beside behind roads billboards pole</p>
+                    </div>
+                    <div id="blocksc" class="content-block">
+                        <p>a colcordvindicanalogue closeup of yellow bus mirror through a mirromirromirror depicting a yellow vehicle it on black bicycle foreground behind a a black polhandle a boards behind blur towards a white boards boards above background silhousky sky white siding and poles pole besides wooden pole lborange green green handle reflection contentreflection black black round mirror rotterdam wisconsin congestion vehicle mirror mirror vintage hdr reflection glass mirror</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="columns">
+                <div class="column has-text-centered">
+                    <img class='center-cropped' src="dediffusion_imgs/COCO_val2014_000000577310.jpg">
+                    <p><a href="http://cocodataset.org/#explore?id=577310">original image</a></p>
+                </div>
+                <div class="column square-text-block">
+                    <button onclick="showBlock('blockea', 'blocke')">5 Tokens</button>
+                    <button onclick="showBlock('blockeb', 'blocke')">15 Tokens</button>
+                    <button onclick="showBlock('blockec', 'blocke')">75 Tokens</button>
+                    <div id="blockea" class="content-block active">
+                        <p>morecambe roadside kites pedestrians stormy</p>
+                    </div>
+                    <div id="blockeb" class="content-block">
+                        <p>morecambe whitby foreground people walking flying kite kite wearing people stormy clouds roads retaining bridge</p>
+                    </div>
+                    <div id="blockec" class="content-block">
+                        <p>a colvc vanishing lantic street photography peop person right women walking towards scattered flying kites and a red shirt a on roadway road along alongside a a retaining polretaining a fencing right slope numerous a people sitting flying behind gloom dark cloud cloud earthy mound grassy grass etc with dark sky muted muted grey black person cloud foreground people muted beige slope mound whitby whitby burrows hilltop sky cloud skyline people walk grassy road</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="title is-5 has-text-justified">
             <p>De-Diffusion text can desrbie creative synthetic images.</p>
           </div>
 
@@ -299,7 +395,7 @@
         </div>
 
 
-        <div class="content has-text-justified">
+        <div class="title is-5 has-text-justified">
           <p>De-Diffusion text contrains factual knowledge.</p>
         </div>
 
@@ -434,7 +530,7 @@
             </div>
         </div>
 
-        <div class="content has-text-justified">
+        <div class="title is-5 has-text-justified">
             <p>De-Diffusion can recogize abstract symbols.</p>
         </div>
 
@@ -545,7 +641,7 @@
         </div>
 
         <div id="expandable-block-1" class="expandable-block">
-            <button onclick="toggleExpand('expandable-block-1')" class="expandable-button">Click here for more results</button>
+            <button onclick="toggleExpand('expandable-block-1')" class="expandable-button">Click here for more results.</button>
 
             <div class="content">
                 <div class="columns">
@@ -699,11 +795,11 @@
         </div>
 
         <div class="title is-3 has-text-justified">
-            <p>Text-based Image Blending</p>
+            <p>Text-Based Image Blending</p>
         </div>
 
         <div class="title is-5">
-            <p>Step 1: Obtain De-Diffusion text</p>
+            <p>Step 1: Obtain De-Diffusion text.</p>
         </div>
 
         <div class="columns">
@@ -714,7 +810,7 @@
                 </div>
                 <div class="column">
                     <div id="expandable-block-2" class="expandable-block">
-                        <button onclick="toggleExpand('expandable-block-2')" class="expandable-button">Click here for De-Diffusion text</button>
+                        <button onclick="toggleExpand('expandable-block-2')" class="expandable-button">Click here for De-Diffusion text.</button>
                         <div class="content">
                             <p>a colrejolossoils painting of transformer robot robot standing wearing dusk red robot in a blue armor it across blue waves amidst towards a a yellow pollens a swirl behind viewed between a colorful swirl swirl beside colorful yellow sunset cloudy colourful hills colourful valleys smh wearing gogh gogh bered red blue blue blue painting presented red red red psorirobot robson capcom modernist gicpainting painting painting blue painting abstract mural</p>
                         </div>
@@ -729,7 +825,7 @@
                 </div>
                 <div class="column">
                     <div id="expandable-block-3" class="expandable-block">
-                        <button onclick="toggleExpand('expandable-block-3')" class="expandable-button">Click here for De-Diffusion text</button>
+                        <button onclick="toggleExpand('expandable-block-3')" class="expandable-button">Click here for De-Diffusion text.</button>
                         <div class="content">
                             <p>a colstavgmbmagewallpapers of deer deer animal standing standing wearing deer deer on a water water it on a river accompanied asting a a orangepolreflection a water among blur despite a green trees trees also but yellow autumn misty among forests autumnal fir trunk besides snow winter shutterorange teal teal darkness forest featuring bered auburn auburn majeantlers bavholistic fantasy forest deer wallpapers wallpapers wide reflections forest forest</p>
                         </div>
@@ -773,6 +869,62 @@
             <div class="column has-text-centered">
                 <img src="dediffusion_imgs/B-A-mid.png">
                 <p>B+A (Midjourney)</p>
+            </div>
+        </div>
+
+        <div class="title is-3 has-text-justified">
+            <p>Failure Cases</p>
+        </div>
+
+        <div class="title is-5">
+            <p>De-Diffusion can recognize text, but can not read text in images.</p>
+        </div>
+        <div class="content">
+            <p>Reading text is beyond the reach of the current De-Diffusion model, because the pre-trained text-to-image decoder can not accurately generate text.</p>
+        </div>
+
+        <div class="columns">
+            <div class="columns">
+                <div class="column has-text-centered">
+                    <img class='center-cropped' src="https://ideogram.ai/api/images/direct/lgfoOGjfTRmb0nvu6Erv3A.jpg">
+                    <p><a href="https://ideogram.ai/g/yLdw2ICsROynPGB8bkaPfg/3">original image</a></p>
+                </div>
+                <div class="column square-text-block">
+                    <button onclick="showBlock('blockoa', 'blocko')">5 Tokens</button>
+                    <button onclick="showBlock('blockob', 'blocko')">15 Tokens</button>
+                    <button onclick="showBlock('blockoc', 'blocko')">75 Tokens</button>
+                    <div id="blockoa" class="content-block active">
+                        <p>surreal neon flower heart text</p>
+                    </div>
+                    <div id="blockob" class="content-block">
+                        <p>colorful kawaii render letters surrounded lettering colorful heart pink letters purple flowers flowers text text</p>
+                    </div>
+                    <div id="blockoc" class="content-block">
+                        <p>a edit render cgi frontal of a heart font elaborate pink pink font elaborate plants placed on a shape in colorful flowers oversized heart having floral with pink gerber roses heads with colourful and seen alongside some purple pom pom right with colourful toys flowers on greypink ground on spotlight darkness brown background mshcarnival toy colourful blue pink pink colorful font font flowers birthday font font dop photography flickr johan afm cgi toys 
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="columns">
+                <div class="column has-text-centered">
+                    <img class='center-cropped' src="https://ideogram.ai/api/images/direct/F2bN2mEhR1WcTIFyCB2Tyw.jpg">
+                    <p><a href="https://ideogram.ai/g/YoTR_pwST1G2BqxGLSsH-Q/1">original image</a></p>
+                </div>
+                <div class="column square-text-block">
+                    <button onclick="showBlock('blockpa', 'blockp')">5 Tokens</button>
+                    <button onclick="showBlock('blockpb', 'blockp')">15 Tokens</button>
+                    <button onclick="showBlock('blockpc', 'blockp')">75 Tokens</button>
+                    <div id="blockpa" class="content-block active">
+                        <p>dubstep colorful butterfly letters illustration</p>
+                    </div>
+                    <div id="blockpb" class="content-block">
+                        <p>colorful kawaii psd cartoon typical letters colorful butterflies colorful letters colourful butterflies colorful background splash</p>
+                    </div>
+                    <div id="blockpc" class="content-block">
+                        <p>a edit vector cartoon font of colorful letters font specially white blue sculpted sculpted letters placed embraced eachother font on colorful paint paint paint with two with pink butterfly butterflies above with font and flying with two colorful butterfly butterflies atop on colorful buttons letters on grey green background on shadows light green background wacky wacky cute cute blue magenta yellow yellow fontpretzel cute ceramic font font client client flickr rizio alivedeviantart font</p>
+                    </div>
+                </div>
             </div>
         </div>
         
